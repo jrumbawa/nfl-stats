@@ -19,7 +19,7 @@ for (const row of rows) {
     row.position,
     Number(row.season),
     Number(row.week),
-    Number(row.receivings_yards),
+    Number(row.receiving_yards),
     Number(row.receptions),
     Number(row.targets),
     Number(row.receiving_tds),
