@@ -1,0 +1,4 @@
+node_modules/
+nfl.db
+stats_2026.csv
+.DS_Store
