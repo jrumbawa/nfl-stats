@@ -9,7 +9,10 @@ app.get('/api/leaders/wr', (req, res) => {
   const rows = db
     .prepare(
       `
-    SELECT player_name, team, SUM(receiving_yards) AS total_yards, SUM(receptions) AS total_receptions, SUM(targets) AS total_targets, SUM(receiving_tds) AS total_tds FROM player_stats WHERE position = 'WR' GROUP BY player_id, player_name, team ORDER BY total_yards DESC
+    SELECT player_id, player_name, (SELECT team FROM player_stats AS latest
+     WHERE latest.player_id = player_stats.player_id
+     ORDER BY latest.week DESC
+     LIMIT 1) AS team, SUM(receiving_yards) AS total_yards, SUM(receptions) AS total_receptions, SUM(targets) AS total_targets, SUM(receiving_tds) AS total_tds FROM player_stats WHERE position = 'WR' GROUP BY player_id, player_name ORDER BY total_yards DESC
   `,
     )
     .all()
