@@ -1,9 +1,15 @@
 import express from 'express'
 import cors from 'cors'
 import db from './db.js'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 app.use(cors())
+
+app.use(express.static(path.join(__dirname, '../client/dist')))
 
 app.get('/api/leaders/wr', (req, res) => {
   const rows = db
@@ -19,6 +25,6 @@ app.get('/api/leaders/wr', (req, res) => {
   res.json(rows)
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log('Server running on http://localhost:3000')
 })

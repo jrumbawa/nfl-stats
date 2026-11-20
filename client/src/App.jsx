@@ -34,7 +34,7 @@ function App() {
   })
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/leaders/wr')
+    fetch('/api/leaders/wr')
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
