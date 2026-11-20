@@ -1,6 +1,8 @@
 import { DatabaseSync } from 'node:sqlite'
-
-const db = new DatabaseSync('nfl.db')
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const db = new DatabaseSync(path.join(__dirname, 'nfl.db'))
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS player_stats (
