@@ -43,52 +43,138 @@ function App() {
   }, [])
 
   return (
-    <div>
-      <h1>2026 WR Leaders</h1>
-      <div>
+    <div className="page">
+      <div className="cards">
         {leaders.slice(0, 3).map((leader, index) => {
           return (
-            <div key={leader.player_id}>
-              <p>#{index + 1} Receiver</p>
-              <h3>
-                {leader.player_name} · {leader.team}
-              </h3>
-              <h2>{leader.total_yards} yds</h2>
+            <div
+              className={`card ${index === 0 && 'gold'}`}
+              key={leader.player_id}
+            >
+              <p className="card-rank">#{index + 1} Receiver</p>
               <p>
+                <span className="player">{leader.player_name}</span> ·{' '}
+                <span className="team">{leader.team}</span>
+              </p>
+              <p className="yards">{leader.total_yards} yds</p>
+              <p className="stats">
                 {leader.total_receptions} rec · {leader.total_tds} tds
               </p>
             </div>
           )
         })}
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th onClick={() => handleSort('player_name')}>Player</th>
-            <th onClick={() => handleSort('total_yards')}>Yards</th>
-            <th onClick={() => handleSort('total_receptions')}>Rec</th>
-            <th onClick={() => handleSort('total_targets')}>Targets</th>
-            <th onClick={() => handleSort('total_tds')}>TDs</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedLeaders.map((leader, index) => {
-            return (
-              <tr key={leader.player_id}>
-                <td>{index + 1}</td>
-                <td>
-                  {leader.player_name} {leader.team}
-                </td>
-                <td>{leader.total_yards}</td>
-                <td>{leader.total_receptions}</td>
-                <td>{leader.total_targets}</td>
-                <td>{leader.total_tds}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <div className="table-wrap">
+        <div className="table-head">
+          <h3>2026 WR Leaders</h3>
+          <p>Tap a column header to sort</p>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th className="head">#</th>
+              <th className="head" onClick={() => handleSort('player_name')}>
+                Player{' '}
+                {sortKey === 'player_name'
+                  ? sortDirection === 'desc'
+                    ? ' ▼'
+                    : ' ▲'
+                  : ''}
+              </th>
+              <th
+                className={`head num ${sortKey === 'total_yards' ? 'sorted' : ''}`}
+                onClick={() => handleSort('total_yards')}
+              >
+                Yards{' '}
+                {sortKey === 'total_yards'
+                  ? sortDirection === 'desc'
+                    ? ' ▼'
+                    : ' ▲'
+                  : ''}
+              </th>
+              <th
+                className={`head num ${sortKey === 'total_receptions' ? 'sorted' : ''}`}
+                onClick={() => handleSort('total_receptions')}
+              >
+                Rec{' '}
+                {sortKey === 'total_receptions'
+                  ? sortDirection === 'desc'
+                    ? ' ▼'
+                    : ' ▲'
+                  : ''}
+              </th>
+              <th
+                className={`head num ${sortKey === 'total_targets' ? 'sorted' : ''}`}
+                onClick={() => handleSort('total_targets')}
+              >
+                Targets{' '}
+                {sortKey === 'total_targets'
+                  ? sortDirection === 'desc'
+                    ? ' ▼'
+                    : ' ▲'
+                  : ''}
+              </th>
+              <th
+                className={`head num ${sortKey === 'total_tds' ? 'sorted' : ''}`}
+                onClick={() => handleSort('total_tds')}
+              >
+                TDs{' '}
+                {sortKey === 'total_tds'
+                  ? sortDirection === 'desc'
+                    ? ' ▼'
+                    : ' ▲'
+                  : ''}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedLeaders.map((leader, index) => {
+              return (
+                <tr key={leader.player_id} className={index < 3 ? 'top' : ''}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <span className="top-name">{leader.player_name}</span>{' '}
+                    <span className="top-team">{leader.team}</span>
+                    {index === 0 &&
+                      sortDirection === 'desc' &&
+                      sortKey !== 'player_name' && (
+                        <span className="pill">#1</span>
+                      )}
+                  </td>
+                  <td className="num">
+                    {index < 3 && sortKey === 'total_yards' ? (
+                      <strong>{leader.total_yards}</strong>
+                    ) : (
+                      leader.total_yards
+                    )}
+                  </td>
+                  <td className="num">
+                    {index < 3 && sortKey === 'total_receptions' ? (
+                      <strong>{leader.total_receptions}</strong>
+                    ) : (
+                      leader.total_receptions
+                    )}
+                  </td>
+                  <td className="num">
+                    {index < 3 && sortKey === 'total_targets' ? (
+                      <strong>{leader.total_targets}</strong>
+                    ) : (
+                      leader.total_targets
+                    )}
+                  </td>
+                  <td className="num">
+                    {index < 3 && sortKey === 'total_tds' ? (
+                      <strong>{leader.total_tds}</strong>
+                    ) : (
+                      leader.total_tds
+                    )}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
