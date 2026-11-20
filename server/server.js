@@ -10,6 +10,7 @@ const app = express()
 app.use(cors())
 
 app.use(express.static(path.join(__dirname, '../client/dist')))
+const db = new DatabaseSync(path.join(__dirname, 'nfl.db'))
 
 app.get('/api/leaders/wr', (req, res) => {
   const rows = db
